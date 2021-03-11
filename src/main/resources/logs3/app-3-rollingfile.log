@@ -1,0 +1,5 @@
+[DEBUG] 2021-03-11 15:57:16.071 [main] Log4j2ConfigurationXMLTest - XML config
+[DEBUG] 2021-03-11 15:57:16.102 [main] Log4j2ConfigurationXMLTest - XML config
+[INFO ] 2021-03-11 15:57:16.102 [main] Log4j2ConfigurationXMLTest - XML config
+[WARN ] 2021-03-11 15:57:16.102 [main] Log4j2ConfigurationXMLTest - XML config
+[ERROR] 2021-03-11 15:57:16.102 [main] Log4j2ConfigurationXMLTest - XML config

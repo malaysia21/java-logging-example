@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" status="WARN">
+
+<Properties>
+    <Property name="log-path">src/main/resources/logs3</Property>
+    <Property name="archive">${log-path}/archived-3</Property>
+</Properties>
+
+<Appenders>
+    <Console name="Console-Appender" target="SYSTEM_OUT">
+        <PatternLayout>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg - XML config%n
+            </pattern>>
+        </PatternLayout>
+    </Console>
+
+    <File name="File-Appender" fileName="${log-path}/app-3.log" >
+        <PatternLayout>
+            <pattern>
+                [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - XML config%n
+            </pattern>
+        </PatternLayout>
+    </File>
+
+    <RollingFile name="RollingFile-Appender"
+                 fileName="${log-path}/app-3-rollingfile.log"
+                 filePattern="${archive}/app-3-rollingfile.log.%d{yyyy-MM-dd-hh-mm}.gz">
+        <PatternLayout>
+            <pattern>
+                [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - XML config%n
+            </pattern>
+        </PatternLayout>
+        <Policies>
+            <TimeBasedTriggeringPolicy/>
+            <SizeBasedTriggeringPolicy size="4 KB"/>
+        </Policies>
+        <DefaultRolloverStrategy max="30"/>
+    </RollingFile>
+
+</Appenders>
+
+<Loggers>
+    <Logger name="com.aga.logging.Log4j2ConfigurationXMLTest" level="debug" additivity="false">
+        <AppenderRef ref="File-Appender" level="error"/>
+        <AppenderRef ref="RollingFile-Appender" level="debug"/>
+        <AppenderRef ref="Console-Appender" level="warn"/>
+    </Logger>
+
+    <Root level="error">
+        <AppenderRef ref="Console-Appender"/>
+    </Root>
+</Loggers>
+
+</Configuration>

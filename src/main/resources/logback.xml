@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!--<configuration debug="true">-->
+
+    <property name="HOME_LOG" value="src/main/resources/logs/app.log"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%thread] [MDC value][%mdc{test-key}][%mdc{test-key2:-default-test-value2}] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>src/main/resources/logs/archived/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5KB</maxFileSize>
+            <!-- total size of all archive files, if total size > 1GB, it will delete old archived file -->
+            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <conversionRule conversionWord="stack"
+                    converterClass="net.logstash.logback.stacktrace.ShortenedThrowableConverter"/>
+
+    <appender name="CONSOLE_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "logger": "%logger{5}",
+                        "thread": "%thread",
+                        "class": "%class{32}",
+                        "tracking-id": "%mdc{tracking-id}",
+                        "session-id": "%mdc{session-id}",
+                        "msg": "%message",
+                        "stackTrace": "%ex",
+                        "throwable": "%throwable",
+                        "stackTrace2": "%stack"
+                        }
+                    </pattern>
+                </pattern>
+                <logstashMarkers/>
+            </providers>
+        </encoder>
+    </appender>
+
+
+    <logger name="com.aga.logging.LogbackTest" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
+
+    <logger name="com.aga.logging.LogbackJsonTest" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE_JSON"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
